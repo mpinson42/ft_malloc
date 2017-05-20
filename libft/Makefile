@@ -15,7 +15,7 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_isalnum.c ./ft_isalpha.c ./ft_isascii.c \
 	  ./ft_absolut.c ./ft_strjoin_free.c ./ft_recursive_factorial.c \
 	  ./ft_iterative_power.c ./ft_sqrt.c ./get_next_line.c ./ft_unsigned_itoa_base.c \
 	  ./ft_uni_putchar.c ./ft_pushback.c ./ft_uni_strlen.c ./ft_uni_putstr.c \
-	  ./ft_uni_strcmp.c ./ft_uni_strsub.c ./ft_ftoa.c
+	  ./ft_uni_strcmp.c ./ft_uni_strsub.c ./ft_ftoa.c ./ft_itoa_base.c
 
 SRC2 = ./ft_atoi.o ./ft_bzero.o ./ft_isalnum.o ./ft_isalpha.o ./ft_isascii.o \
 	   ./ft_isdigit.o ./ft_isprint.o ./ft_memccpy.o ./ft_memchr.o ./ft_memcmp.o \
@@ -32,7 +32,7 @@ SRC2 = ./ft_atoi.o ./ft_bzero.o ./ft_isalnum.o ./ft_isalpha.o ./ft_isascii.o \
 	   ./ft_absolut.o ./ft_strjoin_free.o ./ft_recursive_factorial.o \
 	   ./ft_iterative_power.o ./ft_sqrt.o ./get_next_line.o ./ft_unsigned_itoa_base.o \
 	   ./ft_uni_putchar.o ./ft_pushback.o ./ft_uni_strlen.o ./ft_uni_putstr.o \
-	   ./ft_uni_strcmp.o ./ft_uni_strsub.o ./ft_ftoa.o
+	   ./ft_uni_strcmp.o ./ft_uni_strsub.o ./ft_ftoa.o ./ft_itoa_base.o
 
 
 all: $(NAME)
