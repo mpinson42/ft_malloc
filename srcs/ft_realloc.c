@@ -68,15 +68,12 @@ static void	*re_p3(void *ptr, int getsize, int size)
 	i = 0;
 	//printf("%d\n",(g_env.large.tab[i]);
 	//ft_putstr(ft_itoa_base((uintmax_t)ptr, 16));
-/*	while(i < PRE_ALLOC)
+	while(i < PRE_ALLOC)
 	{
 		if(size >= (int)(getsize) && size <  (int)(getsize * 2))
 				return(ptr);
-		//	printf("malloc2\n");
-		if(g_env.large.alloc[i] == 1)
-			printf("%p\n",g_env.large.tab[i]);
 		if(g_env.large.alloc[i] == 1 && g_env.large.tab[i] >= ptr)
-		{*/
+		{
 
 
 
@@ -88,12 +85,10 @@ static void	*re_p3(void *ptr, int getsize, int size)
 			ft_memmove(str, ptr, ft_strlen(ptr));                                                  //gere la size
 			free(ptr);
 			return(str);
-	/*	}
+		}
 		i++;
 	}
-	ft_putnbr(3);
-	ft_putchar('\n');
-	return(NULL);*/
+	return(NULL);
 }
 			//attention||
 void		*realloc(void *ptr, size_t size)
@@ -102,20 +97,36 @@ void		*realloc(void *ptr, size_t size)
 	void *str;
 
 	static int count = 0;
+
+
+/*	ft_putnbr(count);
+	if(count == 1)
+		return (NULL);
+	if(ptr == NULL)
+		ft_putstr(" (NULL)");
+	ft_putchar('\n');*/
+
+	if(g_env.erreur < 9 && count < 1 && ptr == NULL)
+	{
+			str = (void *)malloc(size);
+			ft_memmove(str, ptr, ft_strlen(ptr));                                                  //gere la size
+			free(ptr);
+			return(str);
+	}
 	getsize = getpagesize();
 	count++;
 
 //	if(ptr == NULL && count > 1)
 //		return (NULL);
-	/*if ((str = re_p1(ptr, getsize, size)) != NULL)
+	if ((str = re_p1(ptr, getsize, size)) != NULL)
 		return (str);
 	else if ((str = re_p2(ptr, getsize, size)) != NULL)
 		return (str);
 
-	*/
+	
 //	if(ptr == NULL && count > 1)
 //		return (NULL);
-	if((str = re_p3(ptr, getsize, size)) != NULL)
+	else if((str = re_p3(ptr, getsize, size)) != NULL)
 		return (str);
 	return(NULL);
 }

@@ -20,13 +20,14 @@ static int	free_p1(void *ptr, int getsize)
 	i = 0;
 	while(i < PRE_ALLOC)
 	{
-		if(g_env.tiny.alloc[i] == 1 && g_env.tiny.tab[i] >= ptr && ptr < g_env.tiny.tab[i] + (int)(getsize * 0.5))
+		if(g_env.tiny.alloc[i] == 1 && g_env.tiny.tab[i] >= ptr && ptr < g_env.tiny.tab[i] + g_env.tiny.size[i])
 		{
 		//	printf("free1\n");
 //			munmap(g_env.tiny.tab[i], g_env.tiny.size[i]);
 //			g_env.tiny.tab[i] = mmap(NULL, getsize * 0.5, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 			g_env.tiny.alloc[i] = -1;
 			g_env.tiny.size[i] = 0;
+			g_env.small.tab[i] = NULL;
 			return(-1);                                
 		}
 		i++;
@@ -40,7 +41,8 @@ static int	free_p1(void *ptr, int getsize)
 		//	printf("free2\n");
 			munmap(g_env.tiny.tab_max[i], g_env.tiny.size_max[i]);  //gere la size
 			g_env.tiny.alloc_max[i] = -1;
-			g_env.tiny.size[i] = 0;
+			g_env.tiny.size_max[i] = 0;
+			g_env.tiny.tab_max[i] = NULL;
 			return(-1);                                
 		}
 		i++;
@@ -63,6 +65,7 @@ static int	free_p2(void *ptr, int getsize)
 //			g_env.small.tab[i] = mmap(NULL, getsize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 			g_env.small.alloc[i] = -1;
 			g_env.small.size[i] = 0;
+			g_env.small.tab[i] = NULL;
 			return(-1);                                
 		}
 		i++;
@@ -75,7 +78,8 @@ static int	free_p2(void *ptr, int getsize)
 		//	printf("free2\n");
 			munmap(g_env.small.tab_max[i], g_env.small.size_max[i]);  //gere la size
 			g_env.small.alloc_max[i] = -1;
-			g_env.small.size[i] = 0;
+			g_env.small.size_max[i] = 0;
+			g_env.small.tab_max[i] = NULL;
 			return(-1);                                
 		}
 		i++;
@@ -97,6 +101,7 @@ static int	free_p3(void *ptr, int getsize)
 			munmap(g_env.large.tab[i], g_env.large.size[i]);  //gere la size
 			g_env.large.alloc[i] = -1;
 			g_env.large.size[i] = 0;
+			g_env.large.tab[i] = NULL;
 			return(-1);                                
 		}
 		i++;
@@ -109,12 +114,17 @@ void		free(void *ptr)
 	int getsize;
 
 	getsize = getpagesize();
+	if(ptr == NULL)
+	{
+		return ;
+	}
 	if (free_p1(ptr, getsize) == -1)
 		return ;
 	else if (free_p2(ptr, getsize) == -1)
 		return ;
 	else if(free_p3(ptr, getsize) == -1)
 		return ;
+	g_env.erreur++;
 //	printf("pointer being freed was not allocated");
 //	exit(-1);
 }

@@ -19,6 +19,7 @@ static void	ft_init(int getsize)
 	g_env.tiny.alloc[PRE_ALLOC] = 0;
 	g_env.small.alloc[PRE_ALLOC] = 0;
 	g_env.large.alloc[PRE_ALLOC] = 0;
+	g_env.erreur = 0;
 	i = 0;
 	while(i < PRE_ALLOC)
 	{
@@ -47,6 +48,8 @@ static void	ft_init(int getsize)
 	i = 0;
 	while(i < MAX_ALLOC)
 	{
+		g_env.small.tab_max[i] = NULL;
+		g_env.tiny.tab_max[i] = NULL;
 		g_env.tiny.alloc_max[i] = -1;
 		g_env.tiny.size_max[i] = 0;
 		g_env.small.alloc_max[i] = -1;

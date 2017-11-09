@@ -32,6 +32,7 @@ typedef	struct		s_tiny
 	int				size[PRE_ALLOC];
 
 	void			*plage;
+	void			*plage_max;
 
 	void			*tab_max[MAX_ALLOC];
 	int				alloc_max[MAX_ALLOC + 1];
@@ -62,6 +63,7 @@ typedef struct		s_env
 	t_small			small;
 	t_tiny			tiny;
 	t_large			large;
+	int				erreur;
 }					t_env;
 
 t_env g_env;
