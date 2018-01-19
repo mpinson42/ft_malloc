@@ -24,7 +24,7 @@ static int	free_p1(void *ptr, int getsize)
 		{
 		//	printf("free1\n");
 //			munmap(g_env.tiny.tab[i], g_env.tiny.size[i]);
-//			g_env.tiny.tab[i] = mmap(NULL, getsize * 0.5, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+//			g_env.tiny.tab[i] = mmap(NULL, getsize * 0.25, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 			g_env.tiny.alloc[i] = -1;
 			g_env.tiny.size[i] = 0;
 			g_env.small.tab[i] = NULL;

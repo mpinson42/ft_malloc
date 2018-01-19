@@ -19,11 +19,12 @@ static void	*re_p1(void *ptr, int getsize, int size)
 	void	*str;
 
 	i = 0;
+
 	while(i < PRE_ALLOC)
 	{
-		if(g_env.tiny.alloc[i] == 1 && g_env.tiny.tab[i] >= ptr && ptr < g_env.tiny.tab[i + 1] + (int)(getsize * 0.5))
+		if(g_env.tiny.alloc[i] == 1 && g_env.tiny.tab[i] >= ptr && ptr < g_env.tiny.tab[i + 1] + (int)(getsize * 0.25))
 		{
-			if(size > 0 && size <  (int)(getsize * 0.5))
+			if(size > 0 && size <=  (int)(getsize * 0.25))
 				return(ptr);
 		//	printf("realloc1\n");
 			str = (void *)malloc(size);
@@ -47,7 +48,7 @@ static void	*re_p2(void *ptr, int getsize, int size)
 	{
 		if(g_env.small.alloc[i] == 1 && g_env.small.tab[i] >= ptr && ptr < g_env.small.tab[i + 1] + (int)(getsize))
 		{
-			if(size >= (int)(getsize * 0.5) && size <  (int)(getsize))
+			if(size > (int)(getsize * 0.25) && size <  (int)(getsize))
 				return(ptr);
 			str = (void *)malloc(size);
 			ft_memmove(str, ptr, g_env.small.size[i]);
@@ -105,14 +106,17 @@ void		*realloc(void *ptr, size_t size)
 	if(ptr == NULL)
 		ft_putstr(" (NULL)");
 	ft_putchar('\n');*/
-
 	if(g_env.erreur < 9 && count < 1 && ptr == NULL)
 	{
 			str = (void *)malloc(size);
 			ft_memmove(str, ptr, ft_strlen(ptr));                                                  //gere la size
 			free(ptr);
+			count++;
 			return(str);
 	}
+	else if(ptr == NULL || (int)size < 0)
+		return (NULL);
+
 	getsize = getpagesize();
 	count++;
 

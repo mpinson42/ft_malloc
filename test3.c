@@ -20,7 +20,8 @@ int main()
 	addr2 = (char*)malloc(16*M); 
 	addr3 = (char*)realloc(addr1, 128*M); 
 	addr3[127*M] = 42; 
-	print(addr3); 
+	print(addr3);
+   	//realloc(add3, -42); //attention double realloc segfault	
 	return (0); 
 } 
 

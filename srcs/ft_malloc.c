@@ -20,10 +20,14 @@ static void	ft_init(int getsize)
 	g_env.small.alloc[PRE_ALLOC] = 0;
 	g_env.large.alloc[PRE_ALLOC] = 0;
 	g_env.erreur = 0;
+	g_env.tiny.nb_alloc = 100;
+	g_env.small.nb_alloc = 100;
+	g_env.tiny.plage = mmap(NULL, getsize * 0.25 * PRE_ALLOC, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	g_env.small.plage = mmap(NULL, getsize * PRE_ALLOC, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	i = 0;
 	while(i < PRE_ALLOC)
 	{
-		g_env.tiny.tab[i] = mmap(NULL, getsize * 0.5, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		g_env.tiny.tab[i] = g_env.tiny.plage +  (int)(getsize * 0.25 * i);
 		g_env.tiny.alloc[i] = -1;
 		g_env.tiny.size[i] = 0;
 		i++;
@@ -31,7 +35,7 @@ static void	ft_init(int getsize)
 	i = 0;
 	while(i < PRE_ALLOC)
 	{
-		g_env.small.tab[i] = mmap(NULL, getsize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		g_env.small.tab[i] = g_env.small.plage +  (int)(getsize * i);
 		g_env.small.alloc[i] = -1;
 		g_env.small.size[i] = 0;
 		i++;
@@ -56,31 +60,31 @@ static void	ft_init(int getsize)
 		g_env.small.size_max[i] = 0;
 		i++;
 	}
+	g_env.tiny.alloc[PRE_ALLOC] = 0;
+	g_env.small.alloc[PRE_ALLOC] = 0;
+	g_env.large.alloc[PRE_ALLOC] = 0;
 }
-
-
-
-
-
-
-
 
 void *ft_p1(int size)
 {
 	int i = 0;
 	while(g_env.tiny.alloc[i] != 0 && g_env.tiny.alloc[i] != -1)
 		i++;
-	//printf("malloc1\n");
+
 	if(g_env.tiny.alloc[i] == 0)
 	{
 		i = 0;
-		while(g_env.tiny.alloc_max[i] != 0 && g_env.tiny.alloc_max[i] != -1)
+		while(g_env.tiny.alloc_max[i] != 1 && g_env.tiny.alloc_max[i] != -1)
 			i++;
 		if(g_env.tiny.alloc_max[i] == 0)
 			return(NULL);
-		g_env.tiny.tab_max[i] = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		if(g_env.tiny.nb_alloc % 4 == 0)
+			g_env.tiny.tab_max[i] = mmap(g_env.tiny.plage + (int)(getpagesize() * 0.25 * (i + g_env.tiny.nb_alloc)), size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		else
+			g_env.tiny.tab_max[i] = g_env.tiny.plage + (int)(getpagesize() * 0.25 * (i + g_env.tiny.nb_alloc));
 		g_env.tiny.alloc_max[i] = 1;
 		g_env.tiny.size_max[i] = size;
+		g_env.tiny.nb_alloc++;
 		return(g_env.tiny.tab_max[i]);
 
 	}
@@ -102,9 +106,10 @@ void *ft_p2(int size)
 			i++;
 		if(g_env.small.alloc_max[i] == 0)
 			return(NULL);
-		g_env.small.tab_max[i] = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		g_env.small.tab_max[i] = mmap(g_env.small.plage +  (int)(getpagesize() * (i + g_env.small.nb_alloc))   , size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		g_env.small.alloc_max[i] = 1;
 		g_env.small.size_max[i] = size;
+		g_env.small.nb_alloc++;
 		return(g_env.small.tab_max[i]);
 	}
 	g_env.small.alloc[i] = 1;
@@ -134,11 +139,14 @@ void		*malloc(size_t size)
 
 	getsize = getpagesize();
 	if (i == 1)
+	{
+		i = 0;
 		ft_init(getsize);
-	i = 0;
-	if(size > 0 && size < getsize * 0.5)
+	}
+
+	if(size > 0 && size <= getsize * 0.25)
 		return(ft_p1(size));
-	else if (size >= getsize * 0.5 && size < getsize)
+	else if (size > getsize * 0.25 && size < getsize)
 		return(ft_p2(size));
 	else if (size >= getsize)
 		return(ft_p3(size));

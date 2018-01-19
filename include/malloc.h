@@ -21,7 +21,7 @@
 # define SMALL_SIZE 4096
 
 # define PRE_ALLOC 100
-# define MAX_ALLOC 2000
+# define MAX_ALLOC 4096
 
 #include <stdio.h>
 
@@ -31,7 +31,8 @@ typedef	struct		s_tiny
 	int				alloc[PRE_ALLOC + 1];
 	int				size[PRE_ALLOC];
 
-	void			*plage;
+	char			*plage;
+	int				nb_alloc;
 	void			*plage_max;
 
 	void			*tab_max[MAX_ALLOC];
@@ -44,6 +45,10 @@ typedef	struct		s_small
 	void			*tab[PRE_ALLOC];
 	int				alloc[PRE_ALLOC + 1];
 	int				size[PRE_ALLOC];
+
+	char			*plage;
+	int				nb_alloc;
+	void			*plage_max;
 
 	void			*tab_max[MAX_ALLOC];
 	int				alloc_max[MAX_ALLOC + 1];
