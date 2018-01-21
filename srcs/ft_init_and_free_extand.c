@@ -22,7 +22,6 @@ int		free_p2_2(void *ptr, int getsize)
 		if (g_env.small.alloc_max[i] == 1 && g_env.small.tab_max[i] >= ptr &&
 			ptr <= g_env.small.tab_max[i] + g_env.small.size_max[i])
 		{
-			munmap(g_env.small.tab_max[i], g_env.small.size_max[i]);
 			g_env.small.alloc_max[i] = -1;
 			g_env.small.size_max[i] = 0;
 			g_env.small.tab_max[i] = NULL;

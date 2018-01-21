@@ -22,7 +22,6 @@ static int	free_p1_2(void *ptr, int getsize)
 		if (g_env.tiny.alloc_max[i] == 1 && g_env.tiny.tab_max[i] >= ptr &&
 			ptr <= g_env.tiny.tab_max[i] + g_env.tiny.size_max[i])
 		{
-			munmap(g_env.tiny.tab_max[i], g_env.tiny.size_max[i]);
 			g_env.tiny.alloc_max[i] = -1;
 			g_env.tiny.size_max[i] = 0;
 			g_env.tiny.tab_max[i] = NULL;
