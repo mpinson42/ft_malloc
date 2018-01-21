@@ -4,7 +4,7 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
-SRC = ./srcs/ft_malloc.c ./srcs/ft_free.c ./srcs/ft_realloc.c ./srcs/show_alloc_mem.c
+SRC = ./srcs/ft_malloc.c ./srcs/ft_free.c ./srcs/ft_realloc.c ./srcs/show_alloc_mem.c ./srcs/ft_init_and_free_extand.c
 
 FLAGS = -Wall -Wextra -Werror
 
