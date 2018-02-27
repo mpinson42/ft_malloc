@@ -45,7 +45,7 @@ static void	ft_small(int i, int getsize)
 {
 	char *str;
 
-	str = ft_itoa_base((int)g_env.tiny.tab[0], 16);
+	str = ft_itoa_base((int)g_env.small.tab[0], 16);
 	ft_putstr("SMALL : 0x");
 	ft_putstr(str);
 	free(str);
@@ -74,7 +74,7 @@ static void	ft_large(int i, int getsize)
 {
 	char *s;
 
-	s = ft_itoa_base((int)g_env.tiny.tab[0], 16);
+	s = ft_itoa_base((int)g_env.large.tab[0], 16);
 	ft_putstr("LARGE : 0x");
 	ft_putstr(s);
 	free(s);

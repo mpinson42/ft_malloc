@@ -34,26 +34,24 @@ static void	is_neg(int *neg, intmax_t *n)
 	}
 }
 
-static char	*init(int *neg, int *i)
+static char	*init(int *neg, int *len, int base, int n)
 {
 	char *cmp;
 
 	cmp = "0123456789ABCDEF";
 	neg[0] = 1;
-	i[0] = 0;
+	len[0] = ft_get_len(n, base);
 	return (cmp);
 }
 
 char		*ft_itoa_base(intmax_t n, int base)
 {
-	int		i;
 	int		len;
 	int		neg;
 	char	*str;
 	char	*cmp;
 
-	cmp = init(&neg, &i);
-	len = ft_get_len(n, base);
+	cmp = init(&neg, &len, base, n);
 	is_neg(&neg, &n);
 	if (n == 0)
 		return (ft_strdup("0"));
